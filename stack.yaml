@@ -1,0 +1,5 @@
+flags: {-threaded}
+packages:
+- '.'
+extra-deps:[]
+resolver: lts-3.8
