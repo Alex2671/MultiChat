@@ -358,6 +358,37 @@ openVideo path prt = runUrlPort prt path  $  apply
   --																				threadDelay 100000
   --																				send $ "all donne"
   --				--responseLBS status200 ([("Content-Type","text/html")]) "<video id=vid></video><script type=text/javascript>var video=document.getElementById('vid'); navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia || window.URL.mozCreateObjectURL || window.URL.msCreateObjectURL; navigator.getUserMedia({video:true,audio:true},function (stream){videoStreamUrl = window.URL.createObjectURL(stream);video.src=videoStreamUrl;},function(){});</script>"
+<<<<<<< HEAD
 			
 
 	
+=======
+
+------------------------------------------------------------------------------------------------------new	
+type NickName = b8.ByteString
+
+data TypeCon = Translation | Data | Chating
+data WorkTransactions a b = WorkTransactions a b | Nothing	
+--   member of network = name adress type of con datqbaseNumber
+data Member = Member { name :: String,
+					   handbook :: WorkTracking a,	
+					   typeCon :: TypeCon,
+					   sqlNum :: Int }		
+
+
+serv :: Int -> Int -> IO ()
+serv countMembers port = withSocketsDo $
+			adrese <- getAddrInfo (Just (defaultHints {addrFlags = [AI_PASSIVE]})) Nothing $ Just 4500
+			let neededAddr = head adrese
+			bindedSocket <- socket $ addrFamily neededAddr $ Stream defaultProtocol
+			bind bindedSocket (addrAddress neededAddr)
+			listen countMembers
+			fullLibrary <- sequence $ foldl \list -> forkIO . getMembersAttributes <*> list $ groupTrackFunc bindedSocket []
+		where	
+			groupTrackFunc socket xs = xs : accept socket
+
+
+getMembersAttributes :: (Socket,SockAddr) -> IO Member
+getMembersAttributes (s,sa) = do
+								name <- recv s 500 
+								return $ Member {name, Nothing, Data, 1}
