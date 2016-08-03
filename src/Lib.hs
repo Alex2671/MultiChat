@@ -359,3 +359,5 @@ openVideo path prt = runUrlPort prt path  $  apply
   --																				send $ "all donne"
   --				--responseLBS status200 ([("Content-Type","text/html")]) "<video id=vid></video><script type=text/javascript>var video=document.getElementById('vid'); navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia || window.URL.mozCreateObjectURL || window.URL.msCreateObjectURL; navigator.getUserMedia({video:true,audio:true},function (stream){videoStreamUrl = window.URL.createObjectURL(stream);video.src=videoStreamUrl;},function(){});</script>"
 			
+
+	

@@ -1,5 +1,5 @@
-flags: {-threaded}
+flags: {}
 packages:
 - '.'
-extra-deps:[]
+extra-deps: []
 resolver: lts-3.8

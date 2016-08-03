@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Lib
-  build-depends:       base >= 4.7 && < 5,ansi-terminal,text,network,bytestring,wai-handler-launch,wai,http-types,HTTP,network-uri,blaze-builder,warp,aeson,websockets,transformers
+  build-depends:       base >= 4.7 && < 5,ansi-terminal,text,network,bytestring,wai-handler-launch,wai,http-types,HTTP,network-uri,blaze-builder,warp,aeson,websockets,transformers,wxhaskell
   default-language:    Haskell2010
 
 executable Multichat-exe
