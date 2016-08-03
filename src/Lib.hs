@@ -361,12 +361,12 @@ openVideo path prt = runUrlPort prt path  $  apply
 
 ------------------------------------------------------------------------------------------------------new	
 data TypeCon = Translation | Data | Chating
-data WorkTransactions a b = WorkTransactions a b | Nothing	
 --   member of network = name adress type of con datqbaseNumber
 type Member = Member { name :: string,
 					   handbook :: WorkTracking a,	
 					   typeCon :: TypeCon,
 					   sqlNum :: Int }		
+data WorkTransactions a b = WorkTransactions a b | Nothing	
 data Videotical = Member (Chan a) 
 
 serv :: Int -> Int -> IO ()
