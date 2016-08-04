@@ -1,5 +1,12 @@
+<<<<<<< HEAD
+flags: {}
+packages:
+- '.'
+extra-deps: []
+=======
 flags: {-threaded}
 packages:
 - '.'
 extra-deps:[]
+>>>>>>> 5c4c05060f1371619c5e057bd156ed0eaa8761f7
 resolver: lts-3.8

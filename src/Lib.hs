@@ -358,16 +358,29 @@ openVideo path prt = runUrlPort prt path  $  apply
   --																				threadDelay 100000
   --																				send $ "all donne"
   --				--responseLBS status200 ([("Content-Type","text/html")]) "<video id=vid></video><script type=text/javascript>var video=document.getElementById('vid'); navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia || window.URL.mozCreateObjectURL || window.URL.msCreateObjectURL; navigator.getUserMedia({video:true,audio:true},function (stream){videoStreamUrl = window.URL.createObjectURL(stream);video.src=videoStreamUrl;},function(){});</script>"
+<<<<<<< HEAD
+			
+
+	
+=======
 
 ------------------------------------------------------------------------------------------------------new	
+type NickName = B8.ByteString
+data TypeOfData = Doc | Txt | IMG | Other deriving (Show)
+instance Show TypeOfData
+
 data TypeCon = Translation | Data | Chating
 --   member of network = name adress type of con datqbaseNumber
-type Member = Member { name :: string,
-					   handbook :: WorkTracking a,	
+data Member = Member { name :: String,
+					   takeSocket :: sockAddr,	
+					   handbook :: WorkTransactions a,	
 					   typeCon :: TypeCon,
 					   sqlNum :: Int }		
-data WorkTransactions a b = WorkTransactions a b | Nothing	
+
+data WorkTransactions a = Doc WorkTransactions a | Txt WorkTransactions a | IMG WorkTransactions | Other WorkTransactions a   	
 data Videotical = Member (Chan a) 
+=======
+
 
 serv :: Int -> Int -> IO ()
 serv countMembers port = withSocketsDo $
@@ -376,14 +389,105 @@ serv countMembers port = withSocketsDo $
 			bindedSocket <- socket $ addrFamily neededAddr $ Stream defaultProtocol
 			bind bindedSocket (addrAddress neededAddr)
 			listen countMembers
-			groupTrackFunc [] 
+			fullLibrary <- sequence $ foldl \list -> forkIO . getMembersAttributes <*> list $ groupTrackFunc bindedSocket []
+			handleMessages bindedSocket fullLibrary
+		where
+			groupTrackFunc socket xs = xs : accept socket
+			handleMassages sock library = recvFrom sock 150 >>= separation library 
 
-		where	
-			groupTrackFunc membrLibrary  = do
-						forkIO $ interaction membrLibrary
-						(membrSocket, membrSocketAddr) <- accept bindedSocket
-						details <- recv sock 150	
-						[name,hb,typec,num] = split details  
-						groupTrackFunc $ membrLibrary : Member { name, hb, typec, num }  
+getMembersAttributes :: (Socket,SockAddr) -> IO Member
+getMembersAttributes (s,sa) = do
+								name <- recv s 500 
+								return $ Member {name, sa, Nothing, Data, 1}
 
-interaction :: [Member] -> 	
+separation :: (String, Int, SockAddr) -> [Member]
+separation _ [] = return 
+separation mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then addToHandBook $ notebook $ split " " dataa
+																						     else separation mes xs 								
+				where 
+				   addToHandBook [typ:xs] text = case typ of
+												   Doc -> 
+												   Txt -> 
+												   IMG ->
+												   Other ->	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
