@@ -6,3 +6,4 @@ The main purpose:
  - lightweight for every PC;
 
 And finally, thats all for up skill haskell programming/
+NOT WORKED VERSION!!!!
