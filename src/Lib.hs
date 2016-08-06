@@ -377,7 +377,7 @@ data Member = Member { name :: String,
 					   typeCon :: TypeCon,
 					   sqlNum :: Int }		
 
-data WorkTransactions a = Doc WorkTransactions a | Txt WorkTransactions a | IMG WorkTransactions | Other WorkTransactions a   	
+data WorkTransactions a = Doc WorkTransactions a | Txt WorkTransactions a | IMG WorkTransactions | Other WorkTransactions a | END   	
 data Videotical = Member (Chan a) 
 =======
 
@@ -402,14 +402,19 @@ getMembersAttributes (s,sa) = do
 
 separation :: (String, Int, SockAddr) -> [Member]
 separation _ [] = return 
-separation mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then addToHandBook $ notebook $ split " " dataa
+separation mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then addToHandBook $ notebook $  head . split " " dataa
 																						     else separation mes xs 								
 				where 
-				   addToHandBook [typ:xs] text = case typ of
-												   Doc -> 
-												   Txt -> 
-												   IMG ->
-												   Other ->	
+				   addToHandBook :: WorkTransactions a -> [Member]
+				   addToHandBook book [typ:date] = case typ of
+												   Doc -> inTheEnd book date Doc  
+												   Txt -> inTheEnd book date Txt
+												   IMG -> inTheEnd book date IMG
+												   Other ->	inTheEnd book date Other
+		           inTheEnd :: WorkTransactions a -> String -> TypeOfData -> WorkTransactions a
+		           inTheEnd END date type = 
+		           inTheEnd ( _ WorkTransactions a ) date typee = inTheEnd a date typee     										   
+
 
 
 
