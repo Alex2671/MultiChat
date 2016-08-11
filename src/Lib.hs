@@ -377,7 +377,7 @@ data Member = Member { name :: String,
 					   typeCon :: TypeCon,
 					   sqlNum :: Int }		
 
-data WorkTransactions a = Doc WorkTransactions a | Txt WorkTransactions a | IMG WorkTransactions | Other WorkTransactions a | END   	
+data WorkTransactions a b = a b WorkTransactions a b | End   	
 data Videotical = Member (Chan a) 
 =======
 
@@ -393,31 +393,39 @@ serv countMembers port = withSocketsDo $
 			handleMessages bindedSocket fullLibrary
 		where
 			groupTrackFunc socket xs = xs : accept socket
-			handleMassages sock library = recvFrom sock 150 >>= separation library 
-
+			handleMassages sock library = recvFrom sock 150 >>= addRemoveDataFunc library >> handleMassages 
+			addRemoveDataFunc :: (String, Int, SockAddr) -> [Member] -> [Member]
+			addRemoveDataFunc _ [] = return $ printf "No one member has connect"
+			addRemoveDataFunc (dat,nbytes,addres) a = if first . split dat == "Remove" then removeLib 
+			addRemoveDataFunc (dat,nbytes,addres) a = if first . split dat == "Add" then addLib 
+				  
+	
 getMembersAttributes :: (Socket,SockAddr) -> IO Member
 getMembersAttributes (s,sa) = do
 								name <- recv s 500 
 								return $ Member {name, sa, Nothing, Data, 1}
 
-separation :: (String, Int, SockAddr) -> [Member]
-separation _ [] = return 
-separation mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then addToHandBook $ notebook $  head . split " " dataa
-																						     else separation mes xs 								
+
+addLib :: (String, Int, SockAddr) -> [Member] -> [Member]
+addLib mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then addToHandBook $ notebook $ tail . split " " dataa
+																						     else addLib mes xs 								
 				where 
-				   addToHandBook :: WorkTransactions a -> [Member]
+				   addToHandBook :: WorkTransactions TypeOfData String -> [String] -> [Member]
 				   addToHandBook book [typ:date] = case typ of
-												   Doc -> inTheEnd book date Doc  
-												   Txt -> inTheEnd book date Txt
-												   IMG -> inTheEnd book date IMG
-												   Other ->	inTheEnd book date Other
-		           inTheEnd :: WorkTransactions a -> String -> TypeOfData -> WorkTransactions a
-		           inTheEnd END date type = 
-		           inTheEnd ( _ WorkTransactions a ) date typee = inTheEnd a date typee     										   
+												   "Doc" -> inTheEnd book date Doc  
+												   "Txt" -> inTheEnd book date Txt
+												   "IMG" -> inTheEnd book date IMG
+												   "Other" ->	inTheEnd book date Other
+		           inTheEnd :: WorkTransactions TypeOfData String -> String -> TypeOfData -> WorkTransactions TypeOfData String
+		           inTheEnd (tpe x (End)) date typee = tpe x date () 
+		           inTheEnd (_ x) date typee = inTheEnd x date typee     										   
 
-
-
-
+removeLib :: (String, Int, SockAddr) -> [Member] -> [Member] 
+removeLib mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then removeFromHandBook $ notebook $ tail . split " " dataa
+																						    else removeLib mes xs				
+				where 
+				   removeFromHandBook :: WorkTransactions TypeOfData String -> [String] -> [Member]																		    	
+				   removeFromHandBook book [typ:date] = 
 
 
 
