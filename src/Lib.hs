@@ -372,7 +372,7 @@ instance Show TypeOfData
 data TypeCon = Translation | Data | Chating
 --   member of network = name adress type of con datqbaseNumber
 data Member = Member { name :: String,
-					   takeSocket :: sockAddr,	
+					   takeSocket :: SockAddr,	
 					   handbook :: WorkTransactions a,	
 					   typeCon :: TypeCon,
 					   sqlNum :: Int }		
@@ -421,11 +421,12 @@ addLib mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql
 		           inTheEnd (_ x) date typee = inTheEnd x date typee     										   
 
 removeLib :: (String, Int, SockAddr) -> [Member] -> [Member] 
-removeLib mes@(dataa,nbytes,addrss) [(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then removeFromHandBook $ notebook $ tail . split " " dataa
+removeLib mes@(dataa,nbytes,addrss) list@[(Member {name, sockAddress, notebook, con, sql}):xs] = if addrss == sockAddress then removeFromHandBook notebook (tail . split " " dataa) 
 																						    else removeLib mes xs				
 				where 
-				   removeFromHandBook :: WorkTransactions TypeOfData String -> [String] -> [Member]																		    	
-				   removeFromHandBook book [typ:date] = 
+				   removeFromHandBook :: WorkTransactions TypeOfData String -> [String] -> [Member]	
+				   removeFromHandBook _ _ () _ = []																	    	
+				   removeFromHandBook typ dat sa [typ:name] = if name == dat then sa else removeFromHandBook sa
 
 
 
